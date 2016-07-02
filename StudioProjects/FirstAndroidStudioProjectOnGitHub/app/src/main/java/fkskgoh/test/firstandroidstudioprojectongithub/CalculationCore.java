@@ -1,7 +1,6 @@
 package fkskgoh.test.firstandroidstudioprojectongithub;
 
-import android.content.Context;
-import android.widget.Toast;
+
 
 import java.util.Vector;
 
@@ -9,9 +8,14 @@ import java.util.Vector;
  * Created by florian on 15.06.16.
  */
 public class CalculationCore {
-    static Vector<Food> foodList;
+    private Vector<Food> foodList;
 
-    static int loadFromFile()           //0=erfolg 1=dokument ex nicht 2=lesen fehgeschlagen
+    public CalculationCore(Vector<Food> in)
+    {
+        foodList=in;
+    }
+
+    public int loadFromFile()           //0=erfolg 1=dokument ex nicht 2=lesen fehgeschlagen
     {
         // TODO: 15.06.16  lesen aus Datei, umwandeln in Objekte und an Vecktor haengen
         //ZU TESTZWECKEN
@@ -21,7 +25,7 @@ public class CalculationCore {
         return 0;
     }
 
-    static Food findCheapest()
+    public Food findCheapest()
     {
         Food result = new Food("FakeFood", 99.99, 0,0);
         for(int i = 0; i<foodList.size(); i++)
@@ -32,7 +36,19 @@ public class CalculationCore {
         return result;
     }
 
-    static Food findBestRating()
+    public Vector<Food> sortAfterRating(CalculationCore helpCore)
+    {
+        Vector<Food> result = new Vector<Food>(helpCore.foodList.size());
+
+        for(int i = helpCore.foodList.size(); i >0 ; i--) {
+            Food f = helpCore.findBestRating();
+            result.add(f);
+            helpCore.foodList.removeElement(f);
+        }
+        return result;
+    }
+
+    public Food findBestRating()
     {
         Food result = new Food("FakeFood", 99.99, 0,0);
         for(int i = 0; i<foodList.size(); i++)
@@ -43,7 +59,7 @@ public class CalculationCore {
         return result;
     }
 
-    static String saveData()   //0=erfolgreich 1=Error
+    public String saveData()   //0=erfolgreich 1=Error
     {
         try{
 
